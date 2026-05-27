@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrewGo – Transportabel Espressomaskine</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">Brew<span>Go</span></a>
+      <ul class="nav-links">
+        <li><a href="#features">Funktioner</a></li>
+        <li><a href="#product">Produkt</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <button class="cart-btn" id="cartBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Kurv <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="badge">NY – 3-i-1 Portabel Kaffemaskine</span>
+      <h1>Kaffe når du har lyst.<br /><em>Uanset hvor du er.</em></h1>
+      <p class="hero-sub">
+        Bryg frisk espresso direkte fra kapsler, pods eller malet kaffe — på blot ét tryk.
+        Op til <strong>50 kopper</strong> pr. opladning via USB-C.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="addToCart()">Køb nu – 499 kr.</button>
+        <a href="#features" class="btn-ghost">Se funktioner ↓</a>
+      </div>
+      <div class="trust-row">
+        <span>✓ Gratis fragt</span>
+        <span>✓ 30 dages returret</span>
+        <span>✓ 2 års garanti</span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="glow-ring"></div>
+      <img src="assets/product.png" alt="BrewGo Portabel Kaffemaskine" />
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat"><strong>50+</strong><span>Kopper pr. opladning</span></div>
+    <div class="stat"><strong>3-i-1</strong><span>Kompatibel</span></div>
+    <div class="stat"><strong>15 bar</strong><span>Tryk</span></div>
+    <div class="stat"><strong>USB-C</strong><span>Opladning</span></div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-header">
+      <h2>Alt hvad du har brug for. <em>I ét produkt.</em></h2>
+      <p>BrewGo kombinerer professionel espressokvalitet med ultimativ portabilitet.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">☕</div>
+        <h3>3-i-1 Kompatibilitet</h3>
+        <p>Kompatibel med Nespresso-kapsler, ESE-pods og malet kaffe. Én maskine til alt.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Ét-trykstart</h3>
+        <p>Hold inde i 3 sekunder og bryg er klar. Ingen knapper at jonglere med.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔋</div>
+        <h3>50 kopper pr. opladning</h3>
+        <p>Kraftfuldt batteri giver op til 50 espressoer på en enkelt USB-C opladning.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏕️</div>
+        <h3>Tag den med overalt</h3>
+        <p>Perfekt til kontoret, camping, fly, bilen eller morgentur. Passer i kopholder.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💪</div>
+        <h3>15 bar tryk</h3>
+        <p>Professionelt espresso-tryk sikrer crema-rig, fyldig kaffe hver gang.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧼</div>
+        <h3>Nem rengøring</h3>
+        <p>Aftagelige dele der er nemme at skylle af. Ingen rod, ingen besvær.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT SHOWCASE -->
+  <section class="product-showcase" id="product">
+    <div class="showcase-image">
+      <img src="assets/product.png" alt="BrewGo detaljer" />
+    </div>
+    <div class="showcase-content">
+      <span class="badge">Hvad er inkluderet</span>
+      <h2>Alt hvad du behøver fra dag ét</h2>
+      <ul class="include-list">
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>BrewGo Kaffemaskine</strong>
+            <p>Selve maskinen i elegant sort finish med LED-statusindikator</p>
+          </div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>3 adapatere inkluderet</strong>
+            <p>Til Nespresso Original, Dolce Gusto og malet kaffe/ESE-pods</p>
+          </div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>Genbrugelig kop (150ml)</strong>
+            <p>Medfølgende klar plastikkop til direkte brygning</p>
+          </div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>USB-C opladningskabel</strong>
+            <p>Kompatibel med powerbank, bilen eller stikkontakt</p>
+          </div>
+        </li>
+      </ul>
+      <div class="price-block">
+        <div class="price-main">499 <span>kr.</span></div>
+        <div class="price-old"><s>799 kr.</s> <em>Spar 300 kr.</em></div>
+        <button class="btn-primary full-width" onclick="addToCart()">Læg i kurv</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="section-header">
+      <h2>Klar til kaffe på <em>30 sekunder</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Fyld vand</h3>
+        <p>Hæld vand i beholderen — op til 150ml pr. brygning.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Indsæt kapsel</h3>
+        <p>Brug din foretrukne Nespresso-kapsel, pod eller malet kaffe.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Tryk &amp; nyd</h3>
+        <p>Hold startknappen og nyd frisk espresso inden for sekunder.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="section-header">
+      <h2>Ofte stillede spørgsmål</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Hvilke kapsler er kompatible?</summary>
+        <p>BrewGo er kompatibel med Nespresso Original Line kapsler, ESE pods og malet kaffe via de medfølgende adaptere.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Hvor lang tid tager en opladning?</summary>
+        <p>En fuld opladning via USB-C tager ca. 2 timer og giver op til 50 kopper espresso.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Kan den bruges i bilen?</summary>
+        <p>Ja! BrewGo kan oplades og bruges med en biloplader (USB-C), og den passer perfekt i de fleste bilkopholdere.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Hvilken temperatur er det varme vand?</summary>
+        <p>Maskinen varmer vandet til ca. 65–75°C — optimalt til espresso og skånsomt mod kapslen.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Hvornår modtager jeg min ordre?</summary>
+        <p>Vi sender med PostNord. Forventet leveringstid er 2–4 hverdage inden for Danmark. Gratis fragt på alle ordrer.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <h2>Klar til kaffe på farten?</h2>
+    <p>Bestil i dag og få gratis fragt til hele Danmark.</p>
+    <button class="btn-primary large" onclick="addToCart()">Bestil nu – 499 kr.</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">Brew<span>Go</span></a>
+        <p>Din daglige kop kaffe — uanset hvor livet tager dig.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Kundeservice</h4>
+        <ul>
+          <li><a href="#">Kontakt os</a></li>
+          <li><a href="#">Forsendelse &amp; retur</a></li>
+          <li><a href="#">Garanti</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#">Privatlivspolitik</a></li>
+          <li><a href="#">Handelsbetingelser</a></li>
+          <li><a href="#">Cookiepolitik</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 BrewGo. Alle rettigheder forbeholdes.</p>
+    </div>
+  </footer>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Din kurv</h3>
+      <button onclick="closeCart()" class="close-btn">✕</button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <p class="cart-empty">Din kurv er tom.</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        Total: <strong id="cartTotal">0 kr.</strong>
+      </div>
+      <button class="btn-primary full-width" onclick="checkout()">Gå til betaling</button>
+    </div>
+  </aside>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">Lagt i kurven! ☕</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
