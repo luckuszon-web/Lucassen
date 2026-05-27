@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrewGo – Transportabel Espressomaskine</title>
+  <style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0a;
+  --bg2: #111111;
+  --bg3: #1a1a1a;
+  --border: #2a2a2a;
+  --text: #f0f0f0;
+  --muted: #888;
+  --accent: #c9a84c;
+  --accent2: #e8c96b;
+  --green: #4ade80;
+  --radius: 16px;
+  --radius-sm: 8px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-links a {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.cart-btn:hover { border-color: var(--accent); background: #222; }
+
+.cart-count {
+  background: var(--accent);
+  color: #000;
+  border-radius: 999px;
+  width: 20px;
+  height: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #000;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.35);
+}
+
+.btn-primary.full-width { width: 100%; border-radius: var(--radius-sm); }
+.btn-primary.large { padding: 18px 48px; font-size: 1.1rem; }
+
+.btn-ghost {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.btn-ghost:hover { color: var(--text); }
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-block;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--accent2);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-bottom: 20px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 60px;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 560px;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 20px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+
+.hero-sub strong { color: var(--text); }
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.trust-row {
+  display: flex;
+  gap: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.trust-row span { display: flex; align-items: center; gap: 4px; }
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  max-width: 500px;
+}
+
+.hero-image img {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 40px 80px rgba(201,168,76,0.18));
+  max-height: 600px;
+  object-fit: contain;
+  animation: float 4s ease-in-out infinite;
+  width: 320px;
+}
+
+.glow-ring {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat {
+  flex: 1;
+  min-width: 140px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-right: 1px solid var(--border);
+}
+
+.stat:last-child { border-right: none; }
+
+.stat strong {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent2);
+}
+
+.stat span {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 60px;
+}
+
+.section-header h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.section-header h2 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-header p {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* ===== FEATURES ===== */
+.features {
+  padding: 100px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.feature-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.feature-card:hover {
+  border-color: rgba(201,168,76,0.3);
+  transform: translateY(-4px);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ===== PRODUCT SHOWCASE ===== */
+.product-showcase {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.showcase-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.showcase-image img {
+  max-height: 550px;
+  object-fit: contain;
+  filter: drop-shadow(0 30px 60px rgba(201,168,76,0.1));
+}
+
+.showcase-content {
+  flex: 1;
+}
+
+.showcase-content h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 32px;
+}
+
+.include-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.include-list li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.check {
+  background: rgba(74,222,128,0.15);
+  color: var(--green);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.include-list strong { display: block; font-weight: 600; margin-bottom: 2px; }
+.include-list p { font-size: 0.9rem; color: var(--muted); }
+
+.price-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.price-main {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.price-main span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.price-old {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.price-old em {
+  color: var(--green);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ===== HOW IT WORKS ===== */
+.how-it-works {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 24px;
+}
+
+.steps {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.step {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  text-align: center;
+  flex: 1;
+  min-width: 200px;
+  max-width: 240px;
+}
+
+.step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #000;
+  font-weight: 800;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.step h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.step p {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.step-arrow {
+  font-size: 1.5rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ===== FAQ ===== */
+.faq {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 100px 24px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.faq-item[open] { border-color: rgba(201,168,76,0.3); }
+
+.faq-item summary {
+  padding: 20px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.faq-item summary::after {
+  content: "+";
+  font-size: 1.2rem;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item p {
+  padding: 0 24px 20px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  text-align: center;
+  padding: 100px 24px;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.07) 0%, transparent 70%);
+  border-top: 1px solid var(--border);
+}
+
+.cta-section h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+
+.cta-section p {
+  color: var(--muted);
+  margin-bottom: 36px;
+  font-size: 1.05rem;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  flex: 2;
+  min-width: 200px;
+}
+
+.footer-brand p {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 280px;
+}
+
+.footer-links {
+  flex: 1;
+  min-width: 140px;
+}
+
+.footer-links h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.footer-links ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  font-size: 0.9rem;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--text); }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ===== CART SIDEBAR ===== */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.cart-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: min(420px, 100vw);
+  height: 100%;
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.cart-sidebar.open { right: 0; }
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-header h3 { font-size: 1.1rem; font-weight: 700; }
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover { color: var(--text); }
+
+.cart-body {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.cart-empty {
+  color: var(--muted);
+  text-align: center;
+  margin-top: 60px;
+}
+
+.cart-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.cart-item-info { flex: 1; }
+.cart-item-info strong { display: block; font-size: 0.95rem; }
+.cart-item-info span { font-size: 0.85rem; color: var(--muted); }
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+
+.qty-btn:hover { border-color: var(--accent); }
+
+.cart-footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.cart-total {
+  font-size: 1rem;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-total strong { font-size: 1.2rem; color: var(--accent2); }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  z-index: 300;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  white-space: nowrap;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 90px;
+  }
+
+  .hero-cta { justify-content: center; }
+  .trust-row { justify-content: center; }
+
+  .product-showcase {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .showcase-image img { max-height: 360px; }
+
+  .nav-links { display: none; }
+}
+
+@media (max-width: 600px) {
+  .stat { padding: 24px 12px; }
+  .step-arrow { transform: rotate(90deg); }
+  .steps { flex-direction: column; align-items: center; }
+  .step { max-width: 100%; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat { min-width: 50%; }
+}
+
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">Brew<span>Go</span></a>
+      <ul class="nav-links">
+        <li><a href="#features">Funktioner</a></li>
+        <li><a href="#product">Produkt</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <button class="cart-btn" id="cartBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Kurv <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="badge">NY – 3-i-1 Portabel Kaffemaskine</span>
+      <h1>Kaffe når du har lyst.<br /><em>Uanset hvor du er.</em></h1>
+      <p class="hero-sub">
+        Bryg frisk espresso direkte fra kapsler, pods eller malet kaffe — på blot ét tryk.
+        Op til <strong>50 kopper</strong> pr. opladning via USB-C.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="addToCart()">Køb nu – 499 kr.</button>
+        <a href="#features" class="btn-ghost">Se funktioner ↓</a>
+      </div>
+      <div class="trust-row">
+        <span>✓ Gratis fragt</span>
+        <span>✓ 30 dages returret</span>
+        <span>✓ 2 års garanti</span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="glow-ring"></div>
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNDAgNjgwIiB3aWR0aD0iMzQwIiBoZWlnaHQ9IjY4MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImJvZHlHcmFkIiBjeD0iMzUlIiBjeT0iNDAlIiByPSI3MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjM2EzYTNhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjMWExYTFhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBkMGQwZCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0idG9wR3JhZCIgY3g9IjUwJSIgY3k9IjQwJSIgcj0iNjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzU1NSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMjIiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InllbGxvd0dyYWQiIGN4PSI0MCUiIGN5PSIzNSUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmUwNjYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYzhhMDAwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJjdXBHcmFkIiBjeD0iNTAlIiBjeT0iMzAlIiByPSI3MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJyaW1HcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0NDQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiM4ODgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzMzIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJncmVlbkdsb3ciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNmZmZjZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwY2MwMCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxmaWx0ZXIgaWQ9InNoYWRvdyIgeD0iLTIwJSIgeT0iLTEwJSIgd2lkdGg9IjE0MCUiIGhlaWdodD0iMTMwJSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI4IiBzdGREZXZpYXRpb249IjE2IiBmbG9vZC1jb2xvcj0icmdiYSgwLDAsMCwwLjYpIi8+CiAgICA8L2ZpbHRlcj4KICAgIDxmaWx0ZXIgaWQ9Imdsb3ciPgogICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIzIiByZXN1bHQ9ImJsdXIiLz4KICAgICAgPGZlQ29tcG9zaXRlIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImJsdXIiIG9wZXJhdG9yPSJvdmVyIi8+CiAgICA8L2ZpbHRlcj4KICAgIDxjbGlwUGF0aCBpZD0iYm9keUNsaXAiPgogICAgICA8cmVjdCB4PSI4NSIgeT0iMTAwIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjM2MCIgcng9IjE4Ii8+CiAgICA8L2NsaXBQYXRoPgogIDwvZGVmcz4KCiAgPCEtLSBEcm9wIHNoYWRvdyBncm91cCAtLT4KICA8ZyBmaWx0ZXI9InVybCgjc2hhZG93KSI+CgogICAgPCEtLSA9PT09PSBUT1AgQ0FQID09PT09IC0tPgogICAgPGVsbGlwc2UgY3g9IjE3MCIgY3k9IjEwNSIgcng9Ijc4IiByeT0iMTQiIGZpbGw9InVybCgjdG9wR3JhZCkiLz4KICAgIDxyZWN0IHg9IjkyIiB5PSI5MiIgd2lkdGg9IjE1NiIgaGVpZ2h0PSIzMCIgcng9IjEyIiBmaWxsPSJ1cmwoI3RvcEdyYWQpIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iOTIiIHJ4PSI3OCIgcnk9IjE0IiBmaWxsPSIjMmUyZTJlIi8+CiAgICA8IS0tIFNpbHZlciByaW0gcmluZyAtLT4KICAgIDxlbGxpcHNlIGN4PSIxNzAiIGN5PSIxMTUiIHJ4PSI3OCIgcnk9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNyaW1HcmFkKSIgc3Ryb2tlLXdpZHRoPSIzLjUiLz4KCiAgICA8IS0tIFllbGxvdyBwb3dlciBpbmRpY2F0b3IgY2lyY2xlIG9uIHRvcCAtLT4KICAgIDxlbGxpcHNlIGN4PSIxNzAiIGN5PSI5MCIgcng9IjI4IiByeT0iOSIgZmlsbD0idXJsKCN5ZWxsb3dHcmFkKSIvPgogICAgPGVsbGlwc2UgY3g9IjE3MCIgY3k9Ijg4IiByeD0iMjIiIHJ5PSI2IiBmaWxsPSIjZmZlOTgwIiBvcGFjaXR5PSIwLjYiLz4KCiAgICA8IS0tID09PT09IE1BSU4gQk9EWSA9PT09PSAtLT4KICAgIDxyZWN0IHg9Ijg1IiB5PSIxMDgiIHdpZHRoPSIxNzAiIGhlaWdodD0iMzUwIiByeD0iMjAiIGZpbGw9InVybCgjYm9keUdyYWQpIi8+CgogICAgPCEtLSBCb2R5IGhpZ2hsaWdodCBzdHJpcGUgLS0+CiAgICA8cmVjdCB4PSI4NSIgeT0iMTA4IiB3aWR0aD0iMzAiIGhlaWdodD0iMzUwIiByeD0iMjAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiIGNsaXAtcGF0aD0idXJsKCNib2R5Q2xpcCkiLz4KCiAgICA8IS0tIFNpbHZlciByaW0gYXQgYm90dG9tIG9mIGJvZHkgLS0+CiAgICA8cmVjdCB4PSI4NSIgeT0iNDQwIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjEyIiByeD0iMCIgZmlsbD0idXJsKCNyaW1HcmFkKSIgb3BhY2l0eT0iMC44Ii8+CgogICAgPCEtLSA9PT09PSBHUkVFTiBQT1dFUiBCVVRUT04gPT09PT0gLS0+CiAgICA8IS0tIEJ1dHRvbiBzdXJyb3VuZCBnbG93IC0tPgogICAgPGVsbGlwc2UgY3g9IjE3MCIgY3k9IjI3MiIgcng9IjMyIiByeT0iNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwY2MwMCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjI1IiBmaWx0ZXI9InVybCgjZ2xvdykiLz4KICAgIDwhLS0gQnV0dG9uIGJhY2tncm91bmQgb3ZhbCAtLT4KICAgIDxyZWN0IHg9IjE0MyIgeT0iMjM1IiB3aWR0aD0iNTQiIGhlaWdodD0iNzQiIHJ4PSIyNyIgZmlsbD0iIzBhMWEwYSIvPgogICAgPHJlY3QgeD0iMTQ1IiB5PSIyMzciIHdpZHRoPSI1MCIgaGVpZ2h0PSI3MCIgcng9IjI1IiBmaWxsPSJ1cmwoI2dyZWVuR2xvdykiIG9wYWNpdHk9IjAuMTUiLz4KICAgIDwhLS0gQnV0dG9uIGJvcmRlciAtLT4KICAgIDxyZWN0IHg9IjE0MyIgeT0iMjM1IiB3aWR0aD0iNTQiIGhlaWdodD0iNzQiIHJ4PSIyNyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dyZWVuR2xvdykiIHN0cm9rZS13aWR0aD0iMi41Ii8+CiAgICA8IS0tIFBvd2VyIGljb24gLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNzAsMjcyKSI+CiAgICAgIDxwYXRoIGQ9Ik0wLC0xNiBMMCwtNiIgc3Ryb2tlPSIjNGZmZjRmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICAgIDxwYXRoIGQ9Ik0tMTIsLTEwIEExNiwxNiAwIDEsMCAxMiwtMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRmZmY0ZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPC9nPgoKICAgIDwhLS0gPT09PT0gVVNCLUMgUE9SVCA9PT09PSAtLT4KICAgIDxyZWN0IHg9IjE1NyIgeT0iMzQwIiB3aWR0aD0iMjYiIGhlaWdodD0iOCIgcng9IjQiIGZpbGw9IiMxMTEiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICAgIDxyZWN0IHg9IjE2MCIgeT0iMzQyIiB3aWR0aD0iMjAiIGhlaWdodD0iNCIgcng9IjIiIGZpbGw9IiMyMjIiLz4KCiAgICA8IS0tID09PT09IEJPVFRPTSBNRVNIIFZFTlRTID09PT09IC0tPgogICAgPGcgb3BhY2l0eT0iMC41Ij4KICAgICAgPHJlY3QgeD0iMTEwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIxMjAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjEzMCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgICAgPHJlY3QgeD0iMTQwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIxNTAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjE2MCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgICAgPHJlY3QgeD0iMTcwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIxODAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjE5MCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgICAgPHJlY3QgeD0iMjAwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIyMTAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjIyMCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgIDwvZz4KCiAgICA8IS0tID09PT09IEFEQVBURVIgQ09MTEFSID09PT09IC0tPgogICAgPHJlY3QgeD0iOTUiIHk9IjQ1MiIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIyOCIgcng9IjEwIiBmaWxsPSIjMTQxNDE0IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iNDUyIiByeD0iNzUiIHJ5PSI4IiBmaWxsPSIjMWMxYzFjIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iNDgwIiByeD0iNzAiIHJ5PSI3IiBmaWxsPSIjMTExIi8+CgogICAgPCEtLSA9PT09PSBDVVAgLyBSRVNFUlZPSVIgPT09PT0gLS0+CiAgICA8IS0tIEN1cCBib2R5IC0tPgogICAgPHJlY3QgeD0iMTAyIiB5PSI0ODAiIHdpZHRoPSIxMzYiIGhlaWdodD0iMTQwIiByeD0iMTYiIGZpbGw9InVybCgjY3VwR3JhZCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjE4KSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICAgIDwhLS0gQ3VwIHJpYnMgLS0+CiAgICA8ZyBvcGFjaXR5PSIwLjI1IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC40KSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIj4KICAgICAgPGxpbmUgeDE9IjExOCIgeTE9IjQ4MCIgeDI9IjExOCIgeTI9IjYyMCIvPgogICAgICA8bGluZSB4MT0iMTMwIiB5MT0iNDgwIiB4Mj0iMTMwIiB5Mj0iNjIwIi8+CiAgICAgIDxsaW5lIHgxPSIxNDIiIHkxPSI0ODAiIHgyPSIxNDIiIHkyPSI2MjAiLz4KICAgICAgPGxpbmUgeDE9IjE1NCIgeTE9IjQ4MCIgeDI9IjE1NCIgeTI9IjYyMCIvPgogICAgICA8bGluZSB4MT0iMTY2IiB5MT0iNDgwIiB4Mj0iMTY2IiB5Mj0iNjIwIi8+CiAgICAgIDxsaW5lIHgxPSIxNzgiIHkxPSI0ODAiIHgyPSIxNzgiIHkyPSI2MjAiLz4KICAgICAgPGxpbmUgeDE9IjE5MCIgeTE9IjQ4MCIgeDI9IjE5MCIgeTI9IjYyMCIvPgogICAgICA8bGluZSB4MT0iMjAyIiB5MT0iNDgwIiB4Mj0iMjAyIiB5Mj0iNjIwIi8+CiAgICAgIDxsaW5lIHgxPSIyMTQiIHkxPSI0ODAiIHgyPSIyMTQiIHkyPSI2MjAiLz4KICAgICAgPGxpbmUgeDE9IjIyNiIgeTE9IjQ4MCIgeDI9IjIyNiIgeTI9IjYyMCIvPgogICAgPC9nPgogICAgPCEtLSBDdXAgc2hpbmUgLS0+CiAgICA8cmVjdCB4PSIxMDgiIHk9IjQ4OCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjEwMCIgcng9IjkiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xMikiLz4KICAgIDwhLS0gQ3VwIGJvdHRvbSAtLT4KICAgIDxlbGxpcHNlIGN4PSIxNzAiIGN5PSI2MjAiIHJ4PSI2OCIgcnk9IjEwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz4KCiAgICA8IS0tIEZpbGwgbGV2ZWwgaW5kaWNhdG9yIC0tPgogICAgPHJlY3QgeD0iMjMyIiB5PSI1MzAiIHdpZHRoPSI0IiBoZWlnaHQ9IjUiIHJ4PSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNCkiLz4KICAgIDxyZWN0IHg9IjIzMiIgeT0iNTQ1IiB3aWR0aD0iNCIgaGVpZ2h0PSI1IiByeD0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+CiAgICA8cmVjdCB4PSIyMzIiIHk9IjU2MCIgd2lkdGg9IjQiIGhlaWdodD0iNSIgcng9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIvPgoKICA8L2c+Cjwvc3ZnPgo=" alt="BrewGo Portabel Kaffemaskine" />
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat"><strong>50+</strong><span>Kopper pr. opladning</span></div>
+    <div class="stat"><strong>3-i-1</strong><span>Kompatibel</span></div>
+    <div class="stat"><strong>15 bar</strong><span>Tryk</span></div>
+    <div class="stat"><strong>USB-C</strong><span>Opladning</span></div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-header">
+      <h2>Alt hvad du har brug for. <em>I ét produkt.</em></h2>
+      <p>BrewGo kombinerer professionel espressokvalitet med ultimativ portabilitet.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">☕</div>
+        <h3>3-i-1 Kompatibilitet</h3>
+        <p>Kompatibel med Nespresso-kapsler, ESE-pods og malet kaffe. Én maskine til alt.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Ét-trykstart</h3>
+        <p>Hold inde i 3 sekunder og bryg er klar. Ingen knapper at jonglere med.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔋</div>
+        <h3>50 kopper pr. opladning</h3>
+        <p>Kraftfuldt batteri giver op til 50 espressoer på en enkelt USB-C opladning.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏕️</div>
+        <h3>Tag den med overalt</h3>
+        <p>Perfekt til kontoret, camping, fly, bilen eller morgentur. Passer i kopholder.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💪</div>
+        <h3>15 bar tryk</h3>
+        <p>Professionelt espresso-tryk sikrer crema-rig, fyldig kaffe hver gang.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧼</div>
+        <h3>Nem rengøring</h3>
+        <p>Aftagelige dele der er nemme at skylle af. Ingen rod, ingen besvær.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT SHOWCASE -->
+  <section class="product-showcase" id="product">
+    <div class="showcase-image">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNDAgNjgwIiB3aWR0aD0iMzQwIiBoZWlnaHQ9IjY4MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImJvZHlHcmFkIiBjeD0iMzUlIiBjeT0iNDAlIiByPSI3MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjM2EzYTNhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjMWExYTFhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBkMGQwZCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0idG9wR3JhZCIgY3g9IjUwJSIgY3k9IjQwJSIgcj0iNjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzU1NSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMjIiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InllbGxvd0dyYWQiIGN4PSI0MCUiIGN5PSIzNSUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmUwNjYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYzhhMDAwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJjdXBHcmFkIiBjeD0iNTAlIiBjeT0iMzAlIiByPSI3MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJyaW1HcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0NDQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiM4ODgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzMzIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJncmVlbkdsb3ciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNmZmZjZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwY2MwMCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxmaWx0ZXIgaWQ9InNoYWRvdyIgeD0iLTIwJSIgeT0iLTEwJSIgd2lkdGg9IjE0MCUiIGhlaWdodD0iMTMwJSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI4IiBzdGREZXZpYXRpb249IjE2IiBmbG9vZC1jb2xvcj0icmdiYSgwLDAsMCwwLjYpIi8+CiAgICA8L2ZpbHRlcj4KICAgIDxmaWx0ZXIgaWQ9Imdsb3ciPgogICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIzIiByZXN1bHQ9ImJsdXIiLz4KICAgICAgPGZlQ29tcG9zaXRlIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImJsdXIiIG9wZXJhdG9yPSJvdmVyIi8+CiAgICA8L2ZpbHRlcj4KICAgIDxjbGlwUGF0aCBpZD0iYm9keUNsaXAiPgogICAgICA8cmVjdCB4PSI4NSIgeT0iMTAwIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjM2MCIgcng9IjE4Ii8+CiAgICA8L2NsaXBQYXRoPgogIDwvZGVmcz4KCiAgPCEtLSBEcm9wIHNoYWRvdyBncm91cCAtLT4KICA8ZyBmaWx0ZXI9InVybCgjc2hhZG93KSI+CgogICAgPCEtLSA9PT09PSBUT1AgQ0FQID09PT09IC0tPgogICAgPGVsbGlwc2UgY3g9IjE3MCIgY3k9IjEwNSIgcng9Ijc4IiByeT0iMTQiIGZpbGw9InVybCgjdG9wR3JhZCkiLz4KICAgIDxyZWN0IHg9IjkyIiB5PSI5MiIgd2lkdGg9IjE1NiIgaGVpZ2h0PSIzMCIgcng9IjEyIiBmaWxsPSJ1cmwoI3RvcEdyYWQpIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iOTIiIHJ4PSI3OCIgcnk9IjE0IiBmaWxsPSIjMmUyZTJlIi8+CiAgICA8IS0tIFNpbHZlciByaW0gcmluZyAtLT4KICAgIDxlbGxpcHNlIGN4PSIxNzAiIGN5PSIxMTUiIHJ4PSI3OCIgcnk9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNyaW1HcmFkKSIgc3Ryb2tlLXdpZHRoPSIzLjUiLz4KCiAgICA8IS0tIFllbGxvdyBwb3dlciBpbmRpY2F0b3IgY2lyY2xlIG9uIHRvcCAtLT4KICAgIDxlbGxpcHNlIGN4PSIxNzAiIGN5PSI5MCIgcng9IjI4IiByeT0iOSIgZmlsbD0idXJsKCN5ZWxsb3dHcmFkKSIvPgogICAgPGVsbGlwc2UgY3g9IjE3MCIgY3k9Ijg4IiByeD0iMjIiIHJ5PSI2IiBmaWxsPSIjZmZlOTgwIiBvcGFjaXR5PSIwLjYiLz4KCiAgICA8IS0tID09PT09IE1BSU4gQk9EWSA9PT09PSAtLT4KICAgIDxyZWN0IHg9Ijg1IiB5PSIxMDgiIHdpZHRoPSIxNzAiIGhlaWdodD0iMzUwIiByeD0iMjAiIGZpbGw9InVybCgjYm9keUdyYWQpIi8+CgogICAgPCEtLSBCb2R5IGhpZ2hsaWdodCBzdHJpcGUgLS0+CiAgICA8cmVjdCB4PSI4NSIgeT0iMTA4IiB3aWR0aD0iMzAiIGhlaWdodD0iMzUwIiByeD0iMjAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiIGNsaXAtcGF0aD0idXJsKCNib2R5Q2xpcCkiLz4KCiAgICA8IS0tIFNpbHZlciByaW0gYXQgYm90dG9tIG9mIGJvZHkgLS0+CiAgICA8cmVjdCB4PSI4NSIgeT0iNDQwIiB3aWR0aD0iMTcwIiBoZWlnaHQ9IjEyIiByeD0iMCIgZmlsbD0idXJsKCNyaW1HcmFkKSIgb3BhY2l0eT0iMC44Ii8+CgogICAgPCEtLSA9PT09PSBHUkVFTiBQT1dFUiBCVVRUT04gPT09PT0gLS0+CiAgICA8IS0tIEJ1dHRvbiBzdXJyb3VuZCBnbG93IC0tPgogICAgPGVsbGlwc2UgY3g9IjE3MCIgY3k9IjI3MiIgcng9IjMyIiByeT0iNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwY2MwMCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjI1IiBmaWx0ZXI9InVybCgjZ2xvdykiLz4KICAgIDwhLS0gQnV0dG9uIGJhY2tncm91bmQgb3ZhbCAtLT4KICAgIDxyZWN0IHg9IjE0MyIgeT0iMjM1IiB3aWR0aD0iNTQiIGhlaWdodD0iNzQiIHJ4PSIyNyIgZmlsbD0iIzBhMWEwYSIvPgogICAgPHJlY3QgeD0iMTQ1IiB5PSIyMzciIHdpZHRoPSI1MCIgaGVpZ2h0PSI3MCIgcng9IjI1IiBmaWxsPSJ1cmwoI2dyZWVuR2xvdykiIG9wYWNpdHk9IjAuMTUiLz4KICAgIDwhLS0gQnV0dG9uIGJvcmRlciAtLT4KICAgIDxyZWN0IHg9IjE0MyIgeT0iMjM1IiB3aWR0aD0iNTQiIGhlaWdodD0iNzQiIHJ4PSIyNyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dyZWVuR2xvdykiIHN0cm9rZS13aWR0aD0iMi41Ii8+CiAgICA8IS0tIFBvd2VyIGljb24gLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNzAsMjcyKSI+CiAgICAgIDxwYXRoIGQ9Ik0wLC0xNiBMMCwtNiIgc3Ryb2tlPSIjNGZmZjRmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICAgIDxwYXRoIGQ9Ik0tMTIsLTEwIEExNiwxNiAwIDEsMCAxMiwtMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRmZmY0ZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPC9nPgoKICAgIDwhLS0gPT09PT0gVVNCLUMgUE9SVCA9PT09PSAtLT4KICAgIDxyZWN0IHg9IjE1NyIgeT0iMzQwIiB3aWR0aD0iMjYiIGhlaWdodD0iOCIgcng9IjQiIGZpbGw9IiMxMTEiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICAgIDxyZWN0IHg9IjE2MCIgeT0iMzQyIiB3aWR0aD0iMjAiIGhlaWdodD0iNCIgcng9IjIiIGZpbGw9IiMyMjIiLz4KCiAgICA8IS0tID09PT09IEJPVFRPTSBNRVNIIFZFTlRTID09PT09IC0tPgogICAgPGcgb3BhY2l0eT0iMC41Ij4KICAgICAgPHJlY3QgeD0iMTEwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIxMjAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjEzMCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgICAgPHJlY3QgeD0iMTQwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIxNTAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjE2MCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgICAgPHJlY3QgeD0iMTcwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIxODAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjE5MCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgICAgPHJlY3QgeD0iMjAwIiB5PSI0MDAiIHdpZHRoPSI0IiBoZWlnaHQ9IjIyIiByeD0iMiIgZmlsbD0iIzU1NSIvPgogICAgICA8cmVjdCB4PSIyMTAiIHk9IjQwMCIgd2lkdGg9IjQiIGhlaWdodD0iMjIiIHJ4PSIyIiBmaWxsPSIjNTU1Ii8+CiAgICAgIDxyZWN0IHg9IjIyMCIgeT0iNDAwIiB3aWR0aD0iNCIgaGVpZ2h0PSIyMiIgcng9IjIiIGZpbGw9IiM1NTUiLz4KICAgIDwvZz4KCiAgICA8IS0tID09PT09IEFEQVBURVIgQ09MTEFSID09PT09IC0tPgogICAgPHJlY3QgeD0iOTUiIHk9IjQ1MiIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIyOCIgcng9IjEwIiBmaWxsPSIjMTQxNDE0IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iNDUyIiByeD0iNzUiIHJ5PSI4IiBmaWxsPSIjMWMxYzFjIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iNDgwIiByeD0iNzAiIHJ5PSI3IiBmaWxsPSIjMTExIi8+CgogICAgPCEtLSA9PT09PSBDVVAgLyBSRVNFUlZPSVIgPT09PT0gLS0+CiAgICA8IS0tIEN1cCBib2R5IC0tPgogICAgPHJlY3QgeD0iMTAyIiB5PSI0ODAiIHdpZHRoPSIxMzYiIGhlaWdodD0iMTQwIiByeD0iMTYiIGZpbGw9InVybCgjY3VwR3JhZCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjE4KSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICAgIDwhLS0gQ3VwIHJpYnMgLS0+CiAgICA8ZyBvcGFjaXR5PSIwLjI1IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC40KSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIj4KICAgICAgPGxpbmUgeDE9IjExOCIgeTE9IjQ4MCIgeDI9IjExOCIgeTI9IjYyMCIvPgogICAgICA8bGluZSB4MT0iMTMwIiB5MT0iNDgwIiB4Mj0iMTMwIiB5Mj0iNjIwIi8+CiAgICAgIDxsaW5lIHgxPSIxNDIiIHkxPSI0ODAiIHgyPSIxNDIiIHkyPSI2MjAiLz4KICAgICAgPGxpbmUgeDE9IjE1NCIgeTE9IjQ4MCIgeDI9IjE1NCIgeTI9IjYyMCIvPgogICAgICA8bGluZSB4MT0iMTY2IiB5MT0iNDgwIiB4Mj0iMTY2IiB5Mj0iNjIwIi8+CiAgICAgIDxsaW5lIHgxPSIxNzgiIHkxPSI0ODAiIHgyPSIxNzgiIHkyPSI2MjAiLz4KICAgICAgPGxpbmUgeDE9IjE5MCIgeTE9IjQ4MCIgeDI9IjE5MCIgeTI9IjYyMCIvPgogICAgICA8bGluZSB4MT0iMjAyIiB5MT0iNDgwIiB4Mj0iMjAyIiB5Mj0iNjIwIi8+CiAgICAgIDxsaW5lIHgxPSIyMTQiIHkxPSI0ODAiIHgyPSIyMTQiIHkyPSI2MjAiLz4KICAgICAgPGxpbmUgeDE9IjIyNiIgeTE9IjQ4MCIgeDI9IjIyNiIgeTI9IjYyMCIvPgogICAgPC9nPgogICAgPCEtLSBDdXAgc2hpbmUgLS0+CiAgICA8cmVjdCB4PSIxMDgiIHk9IjQ4OCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjEwMCIgcng9IjkiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xMikiLz4KICAgIDwhLS0gQ3VwIGJvdHRvbSAtLT4KICAgIDxlbGxpcHNlIGN4PSIxNzAiIGN5PSI2MjAiIHJ4PSI2OCIgcnk9IjEwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz4KCiAgICA8IS0tIEZpbGwgbGV2ZWwgaW5kaWNhdG9yIC0tPgogICAgPHJlY3QgeD0iMjMyIiB5PSI1MzAiIHdpZHRoPSI0IiBoZWlnaHQ9IjUiIHJ4PSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNCkiLz4KICAgIDxyZWN0IHg9IjIzMiIgeT0iNTQ1IiB3aWR0aD0iNCIgaGVpZ2h0PSI1IiByeD0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+CiAgICA8cmVjdCB4PSIyMzIiIHk9IjU2MCIgd2lkdGg9IjQiIGhlaWdodD0iNSIgcng9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIvPgoKICA8L2c+Cjwvc3ZnPgo=" alt="BrewGo detaljer" />
+    </div>
+    <div class="showcase-content">
+      <span class="badge">Hvad er inkluderet</span>
+      <h2>Alt hvad du behøver fra dag ét</h2>
+      <ul class="include-list">
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>BrewGo Kaffemaskine</strong>
+            <p>Selve maskinen i elegant sort finish med LED-statusindikator</p>
+          </div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>3 adapatere inkluderet</strong>
+            <p>Til Nespresso Original, Dolce Gusto og malet kaffe/ESE-pods</p>
+          </div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>Genbrugelig kop (150ml)</strong>
+            <p>Medfølgende klar plastikkop til direkte brygning</p>
+          </div>
+        </li>
+        <li>
+          <div class="check">✓</div>
+          <div>
+            <strong>USB-C opladningskabel</strong>
+            <p>Kompatibel med powerbank, bilen eller stikkontakt</p>
+          </div>
+        </li>
+      </ul>
+      <div class="price-block">
+        <div class="price-main">499 <span>kr.</span></div>
+        <div class="price-old"><s>799 kr.</s> <em>Spar 300 kr.</em></div>
+        <button class="btn-primary full-width" onclick="addToCart()">Læg i kurv</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="section-header">
+      <h2>Klar til kaffe på <em>30 sekunder</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Fyld vand</h3>
+        <p>Hæld vand i beholderen — op til 150ml pr. brygning.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Indsæt kapsel</h3>
+        <p>Brug din foretrukne Nespresso-kapsel, pod eller malet kaffe.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Tryk &amp; nyd</h3>
+        <p>Hold startknappen og nyd frisk espresso inden for sekunder.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="section-header">
+      <h2>Ofte stillede spørgsmål</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Hvilke kapsler er kompatible?</summary>
+        <p>BrewGo er kompatibel med Nespresso Original Line kapsler, ESE pods og malet kaffe via de medfølgende adaptere.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Hvor lang tid tager en opladning?</summary>
+        <p>En fuld opladning via USB-C tager ca. 2 timer og giver op til 50 kopper espresso.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Kan den bruges i bilen?</summary>
+        <p>Ja! BrewGo kan oplades og bruges med en biloplader (USB-C), og den passer perfekt i de fleste bilkopholdere.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Hvilken temperatur er det varme vand?</summary>
+        <p>Maskinen varmer vandet til ca. 65–75°C — optimalt til espresso og skånsomt mod kapslen.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Hvornår modtager jeg min ordre?</summary>
+        <p>Vi sender med PostNord. Forventet leveringstid er 2–4 hverdage inden for Danmark. Gratis fragt på alle ordrer.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <h2>Klar til kaffe på farten?</h2>
+    <p>Bestil i dag og få gratis fragt til hele Danmark.</p>
+    <button class="btn-primary large" onclick="addToCart()">Bestil nu – 499 kr.</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">Brew<span>Go</span></a>
+        <p>Din daglige kop kaffe — uanset hvor livet tager dig.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Kundeservice</h4>
+        <ul>
+          <li><a href="#">Kontakt os</a></li>
+          <li><a href="#">Forsendelse &amp; retur</a></li>
+          <li><a href="#">Garanti</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#">Privatlivspolitik</a></li>
+          <li><a href="#">Handelsbetingelser</a></li>
+          <li><a href="#">Cookiepolitik</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 BrewGo. Alle rettigheder forbeholdes.</p>
+    </div>
+  </footer>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Din kurv</h3>
+      <button onclick="closeCart()" class="close-btn">✕</button>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <p class="cart-empty">Din kurv er tom.</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        Total: <strong id="cartTotal">0 kr.</strong>
+      </div>
+      <button class="btn-primary full-width" onclick="checkout()">Gå til betaling</button>
+    </div>
+  </aside>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">Lagt i kurven! ☕</div>
+
+  <script>
+const PRODUCT = {
+  name: 'BrewGo Kaffemaskine 3-i-1',
+  price: 499,
+  id: 'brewgo-v1',
+};
+
+let cart = [];
+
+function addToCart() {
+  const existing = cart.find(i => i.id === PRODUCT.id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...PRODUCT, qty: 1 });
+  }
+  updateCart();
+  showToast();
+  openCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  updateCart();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else updateCart();
+}
+
+function updateCart() {
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+  document.getElementById('cartCount').textContent = count;
+
+  const body = document.getElementById('cartBody');
+  const footer = document.getElementById('cartFooter');
+  const totalEl = document.getElementById('cartTotal');
+
+  if (cart.length === 0) {
+    body.innerHTML = '<p class="cart-empty">Din kurv er tom.</p>';
+    footer.style.display = 'none';
+    return;
+  }
+
+  body.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-info">
+        <strong>${item.name}</strong>
+        <span>${item.price} kr. / stk.</span>
+      </div>
+      <div class="cart-item-controls">
+        <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+        <span>${item.qty}</span>
+        <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+      </div>
+    </div>
+  `).join('');
+
+  totalEl.textContent = total + ' kr.';
+  footer.style.display = 'block';
+}
+
+function openCart() {
+  document.getElementById('cartSidebar').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function checkout() {
+  alert('Tak for din ordre! 🎉\n\nDette er en demo – betalingsintegration kan tilføjes via Stripe eller MobilePay.');
+}
+
+document.getElementById('cartBtn').addEventListener('click', openCart);
+
+// Graceful image fallback
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('error', () => {
+    img.style.background = 'linear-gradient(145deg,#1c1c1c,#111)';
+    img.style.borderRadius = '16px';
+    img.removeAttribute('src');
+  });
+});
+
+</script>
+</body>
+</html>
